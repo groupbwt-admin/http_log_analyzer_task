@@ -1,18 +1,16 @@
 import traceback
 from app.services.socket import Server
 from app.models import HTTPServerErrorLogRecord
-from app.estimators import HyperLogLogOverloadHourEstimator, NaiveOverloadHourEstimator
+from app.estimators import HyperLogLogOverloadHourEstimator, NaiveOverloadHourEstimator, BaseOverloadHourEstimator
 
 
 class HTTPOverloadingPeriodAnalyzer(Server):
     def __init__(self, host: str, port: int, estimator="hyperloglog"):
         super().__init__(host, port)
         if estimator == "naive":
-            self.logger.critical("NAIVE estimator")
-            self.estimator = NaiveOverloadHourEstimator()
+            self.estimator: BaseOverloadHourEstimator = NaiveOverloadHourEstimator()
         else:
-            self.logger.critical("HLL estimator")
-            self.estimator = HyperLogLogOverloadHourEstimator()
+            self.estimator: BaseOverloadHourEstimator = HyperLogLogOverloadHourEstimator()
 
     def _process_message(self, message: str):
         try:
@@ -22,7 +20,9 @@ class HTTPOverloadingPeriodAnalyzer(Server):
                 se_hour = str(server_error.datetime_stamp.hour).zfill(2)
                 unique_to_date_ip_repr = f"{server_error.datetime_stamp.strftime('%Y-%m-%d')}_{server_error.ip}"
                 self.estimator.estimate(se_hour, unique_to_date_ip_repr)
-            self.logger.critical(str(self.estimator))
+            self.logger.debug(str(self.estimator))
+            print(f"Current hour with max value of server errors experienced for unique users is: "
+                  f"{self.estimator.max_overload_hour}")
         except ValueError as ve:
             self.logger.debug(repr(ve))
         except Exception as _e:
