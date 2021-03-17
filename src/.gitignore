@@ -5,7 +5,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-*.log
-
 .coverage
 htmlcov/
+
+log_record_generators/*.log

@@ -11,7 +11,7 @@ class TestNaiveOverloadHourEstimator(unittest.TestCase):
     def test_estimate(self):
         import pathlib
         estimator = HyperLogLogOverloadHourEstimator()
-        with open(f"{pathlib.Path(__file__).parent.absolute()}/fixtures/log_streams_errors.txt", "r") as f:
+        with open(f"{pathlib.Path(__file__).parent.absolute()}/fixtures/log_streams_errors.log", "r") as f:
             for line in f.readlines():
                 http_log_record = HTTPServerErrorLogRecord(line)
                 se_hour = str(http_log_record.datetime_stamp.hour).zfill(2)
