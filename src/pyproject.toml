@@ -6,6 +6,8 @@ authors = ["alex.vulreid@gmail.com"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+datasketch = "^1.5.3"
+python-dotenv = "^0.15.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
