@@ -32,7 +32,7 @@ class Client(ABC):
         """
         self._reader, self._writer = await asyncio.open_connection(self.host, self.port)
         for message in self._get_messages():
-            self._write_message(message)
+            await self._write_message(message)
 
     @abstractmethod
     def _get_messages(self) -> Generator[str, None, None]:
@@ -42,7 +42,7 @@ class Client(ABC):
         """
         pass
 
-    def _write_message(self, message: str):
+    async def _write_message(self, message: str):
         """
         write message to socket stream
         :param message:
@@ -51,6 +51,7 @@ class Client(ABC):
         message = f"{message}\n" if message[-1] != "\n" else message
         if self._writer is not None:
             self._writer.write(message.encode())
+            await self._writer.drain()
 
     def start(self):
         """
