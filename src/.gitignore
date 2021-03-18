@@ -1,0 +1,11 @@
+.venv/
+.env
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.coverage
+htmlcov/
+
+log_record_generators/*.log

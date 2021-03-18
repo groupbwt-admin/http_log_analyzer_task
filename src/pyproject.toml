@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "PS_STREAM_ANALYZER"
+version = "0.1.0"
+description = ""
+authors = ["alex.vulreid@gmail.com"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+datasketch = "^1.5.3"
+python-dotenv = "^0.15.0"
+
+[tool.poetry.dev-dependencies]
+black = "^19.10b0"
+pylint = "^2.4.4"
+coverage = "^5.5"
+
+[tool.black]
+line-length = 99
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '/(\.eggs|\.git|\.venv|\.scrapy)/'
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
