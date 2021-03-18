@@ -33,10 +33,10 @@ class HTTPOverloadingPeriodAnalyzer(Server):
                 unique_to_date_ip_repr = f"{server_error.datetime_stamp.strftime('%Y-%m-%d')}_{server_error.ip}"
                 self.estimator.estimate(se_hour, unique_to_date_ip_repr)
             self.logger.debug(str(self.estimator))
-            print(f"Total messages: {self.total_processed_messages}"
-                  f" - Current hour with max value of server errors experienced for unique users is: "
-                  f"{self.estimator.max_overload_hour}")
         except ValueError as ve:
             self.logger.debug(repr(ve))
         except Exception as _e:
             self.logger.error(traceback.format_exc())
+        print(f"Total messages: {self.total_processed_messages}"
+              f" - Current hour with max value of server errors experienced for unique users is: "
+              f"{self.estimator.max_overload_hour}")
