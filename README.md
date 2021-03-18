@@ -15,6 +15,11 @@ Install dependencies and configure settings (optional)
     cd src
     poetry install
     cp .env.example .env
+Check log generator scripts permissions. Allow executable permissions if needed:
+
+    ls -la log_record_generators/
+    chmod 777 log_record_generators/fake_log_generator_v*.sh
+
 To start log server:
 
     poetry shell
