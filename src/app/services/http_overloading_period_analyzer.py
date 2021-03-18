@@ -6,6 +6,11 @@ from app.estimators import HyperLogLogOverloadHourEstimator, NaiveOverloadHourEs
 
 class HTTPOverloadingPeriodAnalyzer(Server):
     def __init__(self, host: str, port: int, estimator="hyperloglog"):
+        """
+        :param host:
+        :param port:
+        :param estimator:
+        """
         super().__init__(host, port)
         if estimator == "naive":
             self.estimator: BaseOverloadHourEstimator = NaiveOverloadHourEstimator()
@@ -13,6 +18,11 @@ class HTTPOverloadingPeriodAnalyzer(Server):
             self.estimator: BaseOverloadHourEstimator = HyperLogLogOverloadHourEstimator()
 
     def _process_message(self, message: str):
+        """
+        process each retrieved by the server message to validate it as server error (5xx)
+        :param message:
+        :return:
+        """
         try:
             server_error = HTTPServerErrorLogRecord(message)
             se_weekday = server_error.datetime_stamp.weekday()

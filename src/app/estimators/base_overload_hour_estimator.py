@@ -15,17 +15,37 @@ class BaseOverloadHourEstimator(ABC):
 
     @abstractmethod
     def _get_estimator_instance(self) -> object:
+        """
+        base method to create estimator instance
+        :return:
+        """
         pass
 
     @abstractmethod
     def _calculate_cardinality(self, hour: str) -> float:
+        """
+        base method to execute calculating cardinality of estimator
+        :param hour:
+        :return:
+        """
         pass
 
     @abstractmethod
     def _add_record(self, hour: str, record: str):
+        """
+        base method to perform adding record to corresponding estimator
+        :param hour:
+        :param record:
+        :return:
+        """
         pass
 
     def estimate(self, hour: str, record: str) -> str:
+        """
+        :param hour: - add record for corresponding to hour estimator
+        :param record: - exact value of record for calculating count-distinct
+        :return: - current hour with max overload as string with leading zero
+        """
         if hour not in self._estimators.keys():
             return self.max_overload_hour
         self._add_record(hour, record)

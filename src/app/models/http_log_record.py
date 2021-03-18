@@ -12,6 +12,9 @@ class HTTPLogRecord:
     datetime_stamp_format = "%Y-%m-%d %H:%M:%S"
 
     def __init__(self, record: str):
+        """
+        :param record:
+        """
         payload: dict = json.loads(record)
         if any([k not in payload for k in self.record_key_mapping.values()]):
             raise ValueError("Failed to validate record keys")
@@ -25,6 +28,10 @@ class HTTPLogRecord:
 
     @datetime_stamp.setter
     def datetime_stamp(self, datetime_str: str):
+        """
+        :param datetime_str:
+        :return:
+        """
         self._datetime_stamp = datetime.datetime.strptime(datetime_str, self.datetime_stamp_format)
 
     @property
@@ -33,6 +40,11 @@ class HTTPLogRecord:
 
     @ip.setter
     def ip(self, ip: str):
+        """
+        log record ip setter. validating string to be IP address
+        :param ip:
+        :return:
+        """
         ipaddress.ip_address(ip)
         self._ip = ip
 
@@ -42,6 +54,11 @@ class HTTPLogRecord:
 
     @status_code.setter
     def status_code(self, status_code: int):
+        """
+        log record status_code setter. validating for 3-numbered digit
+        :param status_code:
+        :return:
+        """
         if not (100 <= status_code < 1000):
             raise ValueError("HTTP status_code must be 3 digits number")
         self._status_code = status_code

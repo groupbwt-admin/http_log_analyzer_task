@@ -7,6 +7,10 @@ from typing import Optional
 
 class Server(ABC):
     def __init__(self, host: str, port: int):
+        """
+        :param host:
+        :param port:
+        """
         self._host: str = host
         self._port: int = port
         self._server: Optional[asyncio.base_events.Server] = None
@@ -21,6 +25,12 @@ class Server(ABC):
         return self._port
 
     async def handle_connection(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
+        """
+        callback for handling connected client and receiving messages (each message ends with "\n")
+        :param reader:
+        :param writer:
+        :return:
+        """
         peer_address = writer.get_extra_info("peername")
         try:
             while data := await reader.readuntil():
@@ -35,6 +45,11 @@ class Server(ABC):
 
     @abstractmethod
     def _process_message(self, message: str):
+        """
+        base method for processing retrieved message
+        :param message:
+        :return:
+        """
         pass
 
     async def _start_server(self):
@@ -44,6 +59,10 @@ class Server(ABC):
             await self._server.serve_forever()
 
     def start(self):
+        """
+        start asyncio loop
+        :return:
+        """
         try:
             asyncio.run(self._start_server())
         except KeyboardInterrupt:
